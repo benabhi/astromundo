@@ -45,5 +45,17 @@
     "Comms": "Comunicaciones",
     "Login": "Ingresar",
     "Initialize": "Inicializar",
+    "PILOT LICENSE": "LICENCIA DE PILOTO",
+    "Initialize your identity in the database.": "Inicializa tu identidad en la base de datos.",
+    "Identity": "Identidad",
+    "Age": "Edad",
+    "Career Path": "Trayectoria Profesional",
+    "Miner": "Minero",
+    "Station Alpha // Mole-class Excavator": "Estación Alpha // Excavadora clase Mole",
+    "Transporter": "Transportista",
+    "Sector 9 // Mule-class Hauler": "Sector 9 // Carguero clase Mule",
+    "Bounty Hunter": "Cazarrecompensas",
+    "Deep Void // Dart-class Interceptor": "Vacío Profundo // Interceptor clase Dart",
+    "Issue License": "Emitir Licencia",
     "Transmission End": "Fin de la Transmisión"
 }

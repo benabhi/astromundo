@@ -18,7 +18,12 @@ class Character extends Model
         'last_name',
         'age',
         'date_of_birth',
-        'location_id',
+        'location_id', // Legacy? Maybe remove later
+        'station_id',
+        'station_module_id',
+        'happiness',
+        'integrity',
+        'energy',
     ];
 
     protected $casts = [
@@ -28,6 +33,16 @@ class Character extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function station()
+    {
+        return $this->belongsTo(Station::class);
+    }
+
+    public function currentModule()
+    {
+        return $this->belongsTo(StationModule::class, 'station_module_id');
     }
 
     public function skills()

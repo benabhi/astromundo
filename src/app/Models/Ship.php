@@ -9,7 +9,7 @@ class Ship extends Model
 {
     use HasFactory; // Added this line
 
-    protected $fillable = ['name', 'class']; // Added this line
+    protected $fillable = ['name', 'class', 'energy_capacity', 'current_energy']; // Added this line
 
     public function characters() // Added this method
     {
