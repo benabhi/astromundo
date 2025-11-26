@@ -56,7 +56,9 @@
     <div class="min-h-full flex flex-col relative">
         
         <!-- Minimalist Top Nav (Fades in on hover/scroll) -->
+        @unless($attributes->get('hide-header'))
         <header class="fixed top-0 w-full z-50 transition-all duration-500 group hover:bg-black/80 hover:backdrop-blur-md border-b border-transparent hover:border-white/5" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)" :class="{ 'bg-black/80 backdrop-blur-md border-white/5': scrolled }">
+
             <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
                 <a href="/" class="text-lg font-bold text-white tracking-[0.3em] font-['Orbitron'] opacity-50 hover:opacity-100 transition-opacity">
                     ASTROMUNDO
@@ -75,6 +77,7 @@
                 </div>
             </div>
         </header>
+        @endunless
 
         <!-- Main Content -->
         <main class="flex-grow relative z-10 pt-32 pb-20">

@@ -1,4 +1,4 @@
-<x-cinematic-layout>
+<x-cinematic-layout bg-image="/images/backgrounds/login_background.png">
     <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8 bg-black/50 backdrop-blur-md p-8 border border-white/10 rounded-lg shadow-2xl">
             <div>

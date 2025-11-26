@@ -46,6 +46,28 @@ class CharacterCreationController extends Controller
 
         $user = Auth::user();
 
+        // Get Starting Station based on Role
+        $stationName = match ($request->role) {
+            'miner' => 'Station Alpha',
+            'transporter' => 'Sector 9',
+            'hunter' => 'Deep Void',
+        };
+
+        $station = \App\Models\Station::where('name', $stationName)->first();
+        
+        // Fallback if seeding failed or name mismatch
+        if (!$station) {
+            $station = \App\Models\Station::first();
+        }
+
+        if (!$station) {
+            // Emergency fallback or error
+            throw new \Exception("No stations found in the universe. Please run the seeder.");
+        }
+
+        // Default to Habitation module
+        $module = $station->modules()->where('type', 'Habitation')->first() ?? $station->modules()->first();
+
         // Create Character
         $character = Character::create([
             'user_id' => $user->id,
@@ -53,7 +75,11 @@ class CharacterCreationController extends Controller
             'last_name' => $request->last_name,
             'age' => $request->age,
             'date_of_birth' => now(),
-            'location_id' => $this->getStartingLocation($request->role),
+            'station_id' => $station->id,
+            'station_module_id' => $module->id,
+            'happiness' => 100,
+            'integrity' => 100,
+            'energy' => 100,
         ]);
 
         // Assign Starting Assets
@@ -62,14 +88,7 @@ class CharacterCreationController extends Controller
         return redirect()->route('dashboard');
     }
 
-    protected function getStartingLocation($role)
-    {
-        return match ($role) {
-            'miner' => 'Station Alpha',
-            'transporter' => 'Sector 9 Hub',
-            'hunter' => 'Deep Void Outpost',
-        };
-    }
+
 
     protected function assignStartingAssets(Character $character, $role)
     {

@@ -17,4 +17,9 @@ class SolarSystem extends Model
     {
         return $this->hasMany(Planet::class);
     }
+
+    public function stargates()
+    {
+        return $this->hasMany(Stargate::class);
+    }
 }

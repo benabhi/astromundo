@@ -1,4 +1,4 @@
-<x-cinematic-layout>
+<x-cinematic-layout bg-image="/images/backgrounds/character_creation_lab.png">
     <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8 bg-black/50 backdrop-blur-md p-8 border border-white/10 rounded-lg shadow-2xl">
             <div>
@@ -13,12 +13,7 @@
             <form method="POST" action="{{ route('register') }}" class="mt-8 space-y-6">
                 @csrf
 
-                <!-- Name -->
-                <div>
-                    <label for="name" class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">{{ __('Name') }}</label>
-                    <input id="name" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-white/10 placeholder-slate-500 text-white bg-black/50 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm font-['Space_Mono']" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                </div>
+
 
                 <!-- Email Address -->
                 <div class="mt-4">
