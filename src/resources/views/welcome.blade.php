@@ -1,4 +1,4 @@
-<x-cinematic-layout>
+<x-cinematic-layout bg-image="/images/backgrounds/home_spaceport.png">
     <div class="max-w-3xl mx-auto px-6 space-y-24">
         
         <!-- Hero: The Hook -->

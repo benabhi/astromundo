@@ -46,7 +46,7 @@
     
     <!-- Cinematic Background -->
     <div class="fixed inset-0 z-[-1]">
-        <img src="/images/header-bg.jpg" alt="Space" class="w-full h-full object-cover opacity-30">
+        <img src="{{ $bgImage ?? '/images/backgrounds/home_spaceport.png' }}" alt="Space" class="w-full h-full object-cover opacity-30">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
         <div class="absolute inset-0 vignette"></div>
         <!-- Scanlines -->
