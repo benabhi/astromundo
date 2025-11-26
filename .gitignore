@@ -1,0 +1,19 @@
+# Docker
+docker/mysql/data
+docker/mysql/logs
+
+# System
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Laravel (if not using src/.gitignore)
+src/vendor/
+src/node_modules/
+src/.env
+src/storage/*.key
