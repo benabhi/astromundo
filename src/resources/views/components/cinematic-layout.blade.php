@@ -63,15 +63,15 @@
                 </a>
 
                 <nav class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-slate-500 font-['Rajdhani']">
-                    <a href="#" class="hover:text-white transition-colors">Chronicles</a>
-                    <a href="#" class="hover:text-white transition-colors">Database</a>
-                    <a href="#" class="hover:text-white transition-colors">Comms</a>
+                    <a href="#" class="hover:text-white transition-colors">{{ __('Chronicles') }}</a>
+                    <a href="#" class="hover:text-white transition-colors">{{ __('Database') }}</a>
+                    <a href="#" class="hover:text-white transition-colors">{{ __('Comms') }}</a>
                 </nav>
 
                 <div class="flex items-center gap-4">
-                    <a href="#" class="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest transition-colors font-['Rajdhani']">Login</a>
+                    <a href="{{ route('login') }}" class="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest transition-colors font-['Rajdhani']">{{ __('Login') }}</a>
                     <span class="text-slate-700">/</span>
-                    <a href="#" class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">Initialize</a>
+                    <a href="{{ route('register') }}" class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">{{ __('Initialize') }}</a>
                 </div>
             </div>
         </header>
@@ -83,7 +83,7 @@
 
         <!-- Minimal Footer -->
         <footer class="text-center py-8 text-[10px] text-slate-700 font-mono uppercase tracking-widest">
-            <span class="opacity-50">Transmission End // {{ now()->format('Y') }}</span>
+            <span class="opacity-50">{{ __('Transmission End') }} // {{ now()->format('Y') }}</span>
         </footer>
     </div>
 </body>
