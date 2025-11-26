@@ -53,30 +53,23 @@
         <div class="absolute inset-0 scanline opacity-10 pointer-events-none"></div>
     </div>
 
-    <div class="min-h-full flex flex-col relative">
+    <div class="min-h-full flex flex-col relative" x-data @scroll.window="$dispatch('header-scroll', window.pageYOffset > 20)">
         
         <!-- Minimalist Top Nav (Fades in on hover/scroll) -->
         @unless($attributes->get('hide-header'))
-        <header class="fixed top-0 w-full z-50 transition-all duration-500 group hover:bg-black/80 hover:backdrop-blur-md border-b border-transparent hover:border-white/5" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)" :class="{ 'bg-black/80 backdrop-blur-md border-white/5': scrolled }">
+        <x-main-header>
+            <x-slot name="nav">
+                <a href="#" class="hover:text-white transition-colors">{{ __('Chronicles') }}</a>
+                <a href="#" class="hover:text-white transition-colors">{{ __('Database') }}</a>
+                <a href="#" class="hover:text-white transition-colors">{{ __('Comms') }}</a>
+            </x-slot>
 
-            <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-                <a href="/" class="text-lg font-bold text-white tracking-[0.3em] font-['Orbitron'] opacity-50 hover:opacity-100 transition-opacity">
-                    ASTROMUNDO
-                </a>
-
-                <nav class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-slate-500 font-['Rajdhani']">
-                    <a href="#" class="hover:text-white transition-colors">{{ __('Chronicles') }}</a>
-                    <a href="#" class="hover:text-white transition-colors">{{ __('Database') }}</a>
-                    <a href="#" class="hover:text-white transition-colors">{{ __('Comms') }}</a>
-                </nav>
-
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('login') }}" class="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest transition-colors font-['Rajdhani']">{{ __('Login') }}</a>
-                    <span class="text-slate-700">/</span>
-                    <a href="{{ route('register') }}" class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">{{ __('Initialize') }}</a>
-                </div>
-            </div>
-        </header>
+            <x-slot name="right">
+                <a href="{{ route('login') }}" class="text-xs font-bold text-slate-500 hover:text-white uppercase tracking-widest transition-colors font-['Rajdhani']">{{ __('Login') }}</a>
+                <span class="text-slate-700">/</span>
+                <a href="{{ route('register') }}" class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">{{ __('Initialize') }}</a>
+            </x-slot>
+        </x-main-header>
         @endunless
 
         <!-- Main Content -->

@@ -23,12 +23,32 @@ class UniverseSeeder extends Seeder
         $titan = $aethelgard->moons()->create(['name' => 'Titan', 'type' => 'Icy']);
 
         // Station Alpha (Miner Start)
-        $stationAlpha = $luna->stations()->create(['name' => 'Station Alpha', 'type' => 'NPC', 'description' => 'The primary mining hub.']);
+        $stationAlpha = $luna->stations()->create([
+            'name' => 'Estación Alfa', 
+            'type' => 'NPC', 
+            'description' => 'Un puesto industrial robusto aferrado a la superficie craterizada de Luna. El aire huele a ozono y fluido hidráulico reciclado. Chispas caen de los conductos superiores mientras los drones transportan mineral crudo desde las minas de abajo. Es un lugar de trabajo duro y vida aún más dura.'
+        ]);
         $stationAlpha->modules()->createMany([
-            ['name' => 'Habitation Deck', 'type' => 'Habitation', 'description' => 'Standard crew quarters.'],
-            ['name' => 'Main Hangar', 'type' => 'Hangar', 'description' => 'Docking bays.'],
-            ['name' => 'The Rusty Pickaxe', 'type' => 'Cantina', 'description' => 'A rough bar.'],
-            ['name' => 'Mineral Exchange', 'type' => 'Market', 'description' => 'Trade raw ore.'],
+            [
+                'name' => 'Cubierta de Habitación', 
+                'type' => 'Habitation', 
+                'description' => 'Literas estrechas pero funcionales se alinean en las paredes, vibrando ligeramente con los sistemas de soporte vital de la estación. Terminales personales brillan suavemente en la luz tenue, ofreciendo la única conexión con el mundo exterior.'
+            ],
+            [
+                'name' => 'Hangar Principal', 
+                'type' => 'Hangar', 
+                'description' => 'La cavernosa bahía del hangar resuena con el estruendo de abrazaderas magnéticas y el siseo del refrigerante. Barcazas mineras entran y salen del escudo atmosférico, con sus cascos marcados por el polvo de asteroides.'
+            ],
+            [
+                'name' => 'El Pico Oxidado', 
+                'type' => 'Cantina', 
+                'description' => 'Una neblina de humo flota en el aire de este bar de mala muerte de baja gravedad. Los mineros apuestan sus créditos en juegos de dados holográficos mientras una vieja máquina de discos toca jazz rayado de la Vieja Tierra.'
+            ],
+            [
+                'name' => 'Intercambio Mineral', 
+                'type' => 'Market', 
+                'description' => 'Las pantallas parpadean con precios de mineral en tiempo real de todo el sector. Los comerciantes gritan ofertas sobre el ruido de las máquinas de teletipo, y se hacen o pierden fortunas con la fluctuación de un solo punto porcentual.'
+            ],
         ]);
 
         // --- SYSTEM 2: PROXIMA (Transporter Hub) ---
@@ -41,11 +61,27 @@ class UniverseSeeder extends Seeder
         $phobos = $atlas->moons()->create(['name' => 'Phobos', 'type' => 'Rocky']);
 
         // Sector 9 (Transporter Start)
-        $sector9 = $phobos->stations()->create(['name' => 'Sector 9', 'type' => 'NPC', 'description' => 'A bustling trade station.']);
+        $sector9 = $phobos->stations()->create([
+            'name' => 'Sector 9', 
+            'type' => 'NPC', 
+            'description' => 'Un anillo orbital reluciente que rodea a Fobos, el Sector 9 es la joya de las rutas comerciales. Anuncios de neón se reflejan en los pasillos de duracero pulido, y los vestíbulos están llenos de viajeros de una docena de sistemas.'
+        ]);
         $sector9->modules()->createMany([
-            ['name' => 'Habitation Deck', 'type' => 'Habitation', 'description' => 'Comfortable quarters.'],
-            ['name' => 'Central Dock', 'type' => 'Hangar', 'description' => 'High-capacity docking.'],
-            ['name' => 'Grand Bazaar', 'type' => 'Market', 'description' => 'Interstellar goods.'],
+            [
+                'name' => 'Cubierta de Habitación', 
+                'type' => 'Habitation', 
+                'description' => 'Apartamentos espaciosos con tragaluces simulados que ofrecen vistas de la nebulosa. El aire está perfumado con lavanda sintética y el revestimiento de gravedad está calibrado para el máximo confort.'
+            ],
+            [
+                'name' => 'Muelle Central', 
+                'type' => 'Hangar', 
+                'description' => 'Una inmensa cúpula presurizada capaz de dar servicio a naves capitales. Cargadores automatizados mueven contenedores de carga con precisión de ballet, y los oficiales de aduanas son sorprendentemente educados.'
+            ],
+            [
+                'name' => 'Gran Bazar', 
+                'type' => 'Market', 
+                'description' => 'Un laberinto de puestos y boutiques que venden de todo, desde especias exóticas hasta cibernética ilegal. El zumbido del comercio es un ruido de fondo constante y relajante.'
+            ],
         ]);
 
         // --- SYSTEM 3: KEPLER (Bounty Hunter Hub) ---
@@ -56,11 +92,27 @@ class UniverseSeeder extends Seeder
         $nyx = $fenris->moons()->create(['name' => 'Nyx', 'type' => 'Rocky']);
 
         // Deep Void (Bounty Hunter Start)
-        $deepVoid = $nyx->stations()->create(['name' => 'Deep Void', 'type' => 'NPC', 'description' => 'A shadowy outpost.']);
+        $deepVoid = $nyx->stations()->create([
+            'name' => 'Vacío Profundo', 
+            'type' => 'NPC', 
+            'description' => 'Escondida en la sombra de Nyx, esta estación no aparece en las cartas oficiales. Los pasillos son oscuros, húmedos y silenciosos. Es un santuario para aquellos que desean permanecer invisibles.'
+        ]);
         $deepVoid->modules()->createMany([
-            ['name' => 'Habitation Deck', 'type' => 'Habitation', 'description' => 'Sparse bunks.'],
-            ['name' => 'Shadow Dock', 'type' => 'Hangar', 'description' => 'Discreet docking.'],
-            ['name' => 'Bounty Board', 'type' => 'Office', 'description' => 'Contracts.'],
+            [
+                'name' => 'Cubierta de Habitación', 
+                'type' => 'Habitation', 
+                'description' => 'Celdas austeras con cerraduras reforzadas. El único sonido es el goteo de la condensación y el grito lejano ocasional. La privacidad está garantizada, por un precio.'
+            ],
+            [
+                'name' => 'Muelle de las Sombras', 
+                'type' => 'Hangar', 
+                'description' => 'Las abrazaderas de atraque son magnéticas y silenciosas. Las naves llegan y salen sin planes de vuelo, con sus transpondedores desactivados. Los mecánicos aquí no hacen preguntas.'
+            ],
+            [
+                'name' => 'Tablón de Recompensas', 
+                'type' => 'Office', 
+                'description' => 'Un proyector holográfico muestra los rostros de los más buscados de la galaxia. Los cazadores se reúnen aquí para intercambiar consejos y afilar sus cuchillas. El aire está cargado de tensión y oportunidad.'
+            ],
         ]);
 
         // --- STARGATES ---

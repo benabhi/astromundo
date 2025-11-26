@@ -15,3 +15,4 @@
 2. **Laravel Components**: Prioritize server-side Blade components for UI elements.
 3. **Server-Side Only**: No client-side frameworks (React/Vue/etc.). All logic and rendering must be server-side.
 4. **Responsiveness**: The site MUST be fully responsive on all devices. This is non-negotiable.
+5. **Language**: All content stored in the database (names, descriptions, etc.) MUST be in Spanish.

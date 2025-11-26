@@ -69,95 +69,98 @@
 
     <div class="flex flex-col h-screen overflow-hidden font-['Rajdhani']" x-data="{ mobileMenuOpen: false }">
         
-        <!-- TOP NAVIGATION: Matches Home Page Exactly -->
-        <header class="fixed top-0 w-full z-50 transition-all duration-500 group hover:bg-black/80 hover:backdrop-blur-md border-b border-transparent hover:border-white/5" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)" :class="{ 'bg-black/80 backdrop-blur-md border-white/5': scrolled }">
-            <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-                
-                <!-- Left: Brand -->
-                <a href="{{ route('dashboard') }}" class="text-lg font-bold text-white tracking-[0.3em] font-['Orbitron'] opacity-50 hover:opacity-100 transition-opacity">
-                    ASTROMUNDO
-                </a>
+        <!-- TOP NAVIGATION: Shared Component -->
+        <x-main-header>
+            <x-slot name="nav">
+                <a href="{{ route('dashboard') }}" class="hover:text-white transition-colors {{ request()->routeIs('station.*') ? 'text-white' : '' }}">Estación</a>
+                <a href="#" class="hover:text-white transition-colors">Nave</a>
+                <a href="#" class="hover:text-white transition-colors">Mapa Estelar</a>
+                <a href="#" class="hover:text-white transition-colors">Comunicaciones</a>
+            </x-slot>
 
-                <!-- Center: Navigation -->
-                <nav class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-slate-500 font-['Rajdhani']">
-                    <a href="{{ route('dashboard') }}" class="hover:text-white transition-colors {{ request()->routeIs('station.*') ? 'text-white' : '' }}">Station</a>
-                    <a href="#" class="hover:text-white transition-colors">Ship</a>
-                    <a href="#" class="hover:text-white transition-colors">Starmap</a>
-                    <a href="#" class="hover:text-white transition-colors">Comms</a>
-                </nav>
-
-                <!-- Right: User & Time -->
-                <div class="flex items-center gap-4">
-                    <span class="text-xs font-bold text-slate-500 font-['Orbitron'] tracking-widest">{{ now()->format('H:i') }}</span>
-                    <span class="text-slate-700">/</span>
-                    <div class="flex items-center gap-2 group cursor-pointer">
-                        <span class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">{{ Auth::user()->character->first_name }}</span>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-[10px] text-slate-600 hover:text-red-400 uppercase tracking-widest transition-colors ml-2">[X]</button>
-                        </form>
-                    </div>
+            <x-slot name="right">
+                <span class="text-xs font-bold text-slate-400 font-['Orbitron'] tracking-widest">{{ now()->format('H:i') }}</span>
+                <span class="text-slate-600">/</span>
+                <div class="flex items-center gap-4 group">
+                    <span class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">{{ Auth::user()->character->first_name }}</span>
+                    
+                    <!-- Minimal Logout Link -->
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-[10px] font-bold text-slate-600 hover:text-red-400 uppercase tracking-widest transition-colors font-['Rajdhani']">
+                            [ SALIR ]
+                        </button>
+                    </form>
                 </div>
-            </div>
-        </header>
+            </x-slot>
+        </x-main-header>
 
         <!-- MAIN CONTENT WRAPPER -->
-        <main class="flex-grow relative z-10 pt-32 pb-20 px-6 overflow-y-auto custom-scrollbar">
+        <main class="flex-grow relative z-10 pt-32 pb-20 px-6 overflow-y-auto custom-scrollbar" @scroll="$dispatch('header-scroll', $el.scrollTop > 20)">
             <div class="max-w-5xl mx-auto h-full flex flex-col md:flex-row gap-12">
                 
                 <!-- HUD OVERLAY (Left - Floating) -->
                 <aside class="hidden md:block w-64 flex-shrink-0 pt-8">
-                    <!-- Bio-Monitor Widget -->
-                    <div class="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-sm space-y-4">
-                        <h3 class="text-[10px] text-slate-500 font-bold tracking-widest uppercase mb-2">BIO-TELEMETRY</h3>
+                    <!-- Bio-Monitor Widget (Textual / Minimal) -->
+                    <div class="space-y-6 pl-2">
+                        <h3 class="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase mb-6">BIO-TELEMETRÍA</h3>
                         
-                        <!-- Energy -->
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[10px] uppercase">
-                                <span class="text-blue-400 font-bold">Energy</span>
-                                <span class="text-white">{{ Auth::user()->character->energy }}%</span>
+                        <!-- Stats List -->
+                        <div class="space-y-4 font-['Rajdhani']">
+                            
+                            <!-- Energy -->
+                            <div class="group">
+                                <div class="flex items-baseline justify-between text-slate-400 group-hover:text-blue-400 transition-colors">
+                                    <span class="text-xs uppercase tracking-widest">Energía</span>
+                                    <span class="text-xl font-bold font-['Orbitron']">{{ Auth::user()->character->energy }}%</span>
+                                </div>
+                                <div class="h-px w-full bg-slate-800 mt-1 group-hover:bg-blue-500/50 transition-colors"></div>
                             </div>
-                            <div class="h-1 w-full bg-gray-800/50">
-                                <div class="h-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" style="width: {{ Auth::user()->character->energy }}%"></div>
-                            </div>
-                        </div>
 
-                        <!-- Integrity -->
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[10px] uppercase">
-                                <span class="text-emerald-400 font-bold">Integrity</span>
-                                <span class="text-white">{{ Auth::user()->character->integrity }}%</span>
+                            <!-- Integrity -->
+                            <div class="group">
+                                <div class="flex items-baseline justify-between text-slate-400 group-hover:text-emerald-400 transition-colors">
+                                    <span class="text-xs uppercase tracking-widest">Integridad</span>
+                                    <span class="text-xl font-bold font-['Orbitron']">{{ Auth::user()->character->integrity }}%</span>
+                                </div>
+                                <div class="h-px w-full bg-slate-800 mt-1 group-hover:bg-emerald-500/50 transition-colors"></div>
                             </div>
-                            <div class="h-1 w-full bg-gray-800/50">
-                                <div class="h-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" style="width: {{ Auth::user()->character->integrity }}%"></div>
-                            </div>
-                        </div>
 
-                        <!-- Morale -->
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[10px] uppercase">
-                                <span class="text-amber-400 font-bold">Morale</span>
-                                <span class="text-white">{{ Auth::user()->character->happiness }}%</span>
+                            <!-- Morale -->
+                            <div class="group">
+                                <div class="flex items-baseline justify-between text-slate-400 group-hover:text-amber-400 transition-colors">
+                                    <span class="text-xs uppercase tracking-widest">Moral</span>
+                                    <span class="text-xl font-bold font-['Orbitron']">{{ Auth::user()->character->happiness }}%</span>
+                                </div>
+                                <div class="h-px w-full bg-slate-800 mt-1 group-hover:bg-amber-500/50 transition-colors"></div>
                             </div>
-                            <div class="h-1 w-full bg-gray-800/50">
-                                <div class="h-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" style="width: {{ Auth::user()->character->happiness }}%"></div>
-                            </div>
+
                         </div>
                     </div>
 
                     <!-- Quick Nav (Secondary) -->
                     <nav class="mt-8 space-y-2">
-                        @foreach(['Assets', 'Wallet', 'Corp', 'Market', 'Log'] as $item)
-                        <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-500 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
-                            {{ $item }}
+                        <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
+                            Activos
                         </a>
-                        @endforeach
+                        <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
+                            Billetera
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
+                            Corporación
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
+                            Mercado
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
+                            Diario
+                        </a>
                         
-                        <!-- Logout -->
+                        <!-- Logout (Sidebar Duplicate) -->
                         <form method="POST" action="{{ route('logout') }}" class="pt-4 mt-4 border-t border-white/5">
                             @csrf
-                            <button type="submit" class="block w-full text-left px-4 py-2 text-xs font-bold text-red-500/70 hover:text-red-400 hover:bg-red-500/10 border-l-2 border-transparent hover:border-red-500/30 transition-all uppercase tracking-widest">
-                                Terminate Session
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-xs font-bold text-red-400/70 hover:text-red-300 hover:bg-red-500/10 border-l-2 border-transparent hover:border-red-500/30 transition-all uppercase tracking-widest">
+                                Cerrar Sesión
                             </button>
                         </form>
                     </nav>
@@ -169,12 +172,79 @@
                 </div>
 
             </div>
+
+            <!-- FOOTER: Static at bottom of content -->
+            <footer class="w-full py-8 text-center text-[10px] text-slate-500 font-mono uppercase tracking-widest mt-12 border-t border-white/5">
+                <span class="opacity-70">System: {{ $systemName ?? 'Unknown' }} // Connection Stable</span>
+            </footer>
         </main>
 
-        <!-- FOOTER: Minimal -->
-        <footer class="fixed bottom-0 w-full py-8 text-center text-[10px] text-slate-700 font-mono uppercase tracking-widest z-40 pointer-events-none">
-            <span class="opacity-50">System: {{ $systemName ?? 'Unknown' }} // Connection Stable</span>
-        </footer>
+        <!-- MOBILE DRAWER -->
+        <div 
+            x-show="mobileMenuOpen" 
+            class="fixed inset-0 z-50 flex md:hidden"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+        >
+            <!-- Backdrop -->
+            <div @click="mobileMenuOpen = false" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+            
+            <!-- Drawer Content -->
+            <div 
+                class="relative w-64 h-full bg-black border-r border-white/10 p-6 overflow-y-auto"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="-translate-x-full"
+                x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="translate-x-0"
+                x-transition:leave-end="-translate-x-full"
+            >
+                <div class="space-y-8">
+                    <!-- Mobile Nav Links -->
+                    <nav class="space-y-4 border-b border-white/10 pb-6">
+                        <a href="{{ route('dashboard') }}" class="block text-sm font-bold text-white uppercase tracking-widest font-['Rajdhani']">Estación</a>
+                        <a href="#" class="block text-sm font-bold text-slate-400 hover:text-white uppercase tracking-widest font-['Rajdhani']">Nave</a>
+                        <a href="#" class="block text-sm font-bold text-slate-400 hover:text-white uppercase tracking-widest font-['Rajdhani']">Mapa Estelar</a>
+                        <a href="#" class="block text-sm font-bold text-slate-400 hover:text-white uppercase tracking-widest font-['Rajdhani']">Comunicaciones</a>
+                    </nav>
+
+                    <!-- Bio-Telemetry (Mobile Copy) -->
+                    <div class="space-y-4">
+                        <h3 class="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase">BIO-TELEMETRÍA</h3>
+                        <div class="space-y-4 font-['Rajdhani']">
+                            <!-- Energy -->
+                            <div class="flex items-baseline justify-between text-slate-400">
+                                <span class="text-xs uppercase tracking-widest">Energía</span>
+                                <span class="text-xl font-bold font-['Orbitron'] text-blue-400">{{ Auth::user()->character->energy }}%</span>
+                            </div>
+                            <!-- Integrity -->
+                            <div class="flex items-baseline justify-between text-slate-400">
+                                <span class="text-xs uppercase tracking-widest">Integridad</span>
+                                <span class="text-xl font-bold font-['Orbitron'] text-emerald-400">{{ Auth::user()->character->integrity }}%</span>
+                            </div>
+                            <!-- Morale -->
+                            <div class="flex items-baseline justify-between text-slate-400">
+                                <span class="text-xs uppercase tracking-widest">Moral</span>
+                                <span class="text-xl font-bold font-['Orbitron'] text-amber-400">{{ Auth::user()->character->happiness }}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Links (Mobile Copy) -->
+                    <nav class="space-y-2">
+                        <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Activos</a>
+                        <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Billetera</a>
+                        <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Corporación</a>
+                        <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Mercado</a>
+                        <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Diario</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
 
     </div>
 </body>
