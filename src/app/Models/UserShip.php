@@ -19,8 +19,6 @@ class UserShip extends Pivot implements Locatable
         'solar_system_id',
         'location_type',
         'location_id',
-        'coords_x',
-        'coords_y',
     ];
 
     public function character()
@@ -60,14 +58,7 @@ class UserShip extends Pivot implements Locatable
         return [$this->name ?? 'Nave'];
     }
 
-    public function getCoordinates(): array
-    {
-        return [
-            'x' => $this->coords_x,
-            'y' => $this->coords_y,
-            'z' => 0,
-        ];
-    }
+
 
     public function getSlug(): string
     {

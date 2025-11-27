@@ -26,10 +26,7 @@ interface Locatable
      */
     public function getLocationPath(): array;
 
-    /**
-     * Get coordinates in the current context
-     */
-    public function getCoordinates(): array;
+
 
     /**
      * Get the slug for URL generation

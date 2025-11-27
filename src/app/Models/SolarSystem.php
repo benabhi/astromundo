@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class SolarSystem extends Model implements Locatable
 {
-    protected $fillable = ['name', 'slug', 'coords_x', 'coords_y'];
+    protected $fillable = ['name', 'slug'];
 
     public function getRouteKeyName()
     {
@@ -53,14 +53,7 @@ class SolarSystem extends Model implements Locatable
         return [$this->name];
     }
 
-    public function getCoordinates(): array
-    {
-        return [
-            'x' => $this->x_coordinate,
-            'y' => $this->y_coordinate,
-            'z' => $this->z_coordinate,
-        ];
-    }
+
 
     public function getSlug(): string
     {

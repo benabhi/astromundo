@@ -100,6 +100,6 @@ class StationModuleController extends LocationController
             'ships' => $player->character->ships, // Always pass ships for Hangar or quick access
         ], $data);
 
-        return $this->viewWithLocation('station.show', $viewData);
+        return $this->viewWithLocation('station.module', $viewData);
     }
 }

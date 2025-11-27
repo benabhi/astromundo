@@ -1,4 +1,4 @@
-@props(['title', 'icon' => null, 'border' => 'blue'])
+@props(['title', 'icon' => null, 'border' => 'blue', 'image' => null, 'imageAlt' => ''])
 
 @php
     $borders = [
@@ -39,6 +39,18 @@
                 <div class="text-xs text-slate-400 font-mono mt-1 uppercase tracking-widest">{{ $subtitle }}</div>
             @endif
         </div>
+
+        <!-- Module Image (Optional) -->
+        @if($image)
+            <div class="mt-6 rounded-lg overflow-hidden border border-slate-700/50 shadow-2xl">
+                <img 
+                    src="{{ $image }}" 
+                    alt="{{ $imageAlt }}" 
+                    class="w-full h-auto object-cover max-h-96"
+                    loading="lazy"
+                >
+            </div>
+        @endif
 
         <!-- Content -->
         <div>

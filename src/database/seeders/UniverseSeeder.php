@@ -14,7 +14,7 @@ class UniverseSeeder extends Seeder
     public function run(): void
     {
         // --- SYSTEM 1: HELIOS (Miner Hub) ---
-        $helios = \App\Models\SolarSystem::create(['name' => 'Helios', 'slug' => Str::slug('Helios'), 'coords_x' => 0, 'coords_y' => 0]);
+        $helios = \App\Models\SolarSystem::create(['name' => 'Helios', 'slug' => Str::slug('Helios')]);
         $helios->stars()->create(['name' => 'Helios Prime', 'type' => 'Yellow Main Sequence', 'attributes' => ['luminosity' => 1.0]]);
         
         $aethelgard = $helios->planets()->create(['name' => 'Aethelgard', 'slug' => Str::slug('Aethelgard'), 'type' => 'Gas Giant', 'orbit_index' => 4]);
@@ -60,7 +60,7 @@ class UniverseSeeder extends Seeder
 
 
         // --- SYSTEM 2: PROXIMA (Transporter Hub) ---
-        $proxima = \App\Models\SolarSystem::create(['name' => 'Proxima', 'slug' => Str::slug('Proxima'), 'coords_x' => 10, 'coords_y' => 5]);
+        $proxima = \App\Models\SolarSystem::create(['name' => 'Proxima', 'slug' => Str::slug('Proxima')]);
         $proxima->stars()->create(['name' => 'Proxima Centauri', 'type' => 'Red Dwarf', 'attributes' => ['luminosity' => 0.0017]]);
         
         $vulcan = $proxima->planets()->create(['name' => 'Vulcan', 'slug' => Str::slug('Vulcan'), 'type' => 'Lava World', 'orbit_index' => 1]);
@@ -98,7 +98,7 @@ class UniverseSeeder extends Seeder
         ]);
 
         // --- SYSTEM 3: KEPLER (Bounty Hunter Hub) ---
-        $kepler = \App\Models\SolarSystem::create(['name' => 'Kepler', 'slug' => Str::slug('Kepler'), 'coords_x' => -15, 'coords_y' => 20]);
+        $kepler = \App\Models\SolarSystem::create(['name' => 'Kepler', 'slug' => Str::slug('Kepler')]);
         $kepler->stars()->create(['name' => 'Kepler-186', 'type' => 'Red Dwarf', 'attributes' => ['luminosity' => 0.04]]);
         
         $fenris = $kepler->planets()->create(['name' => 'Fenris', 'slug' => Str::slug('Fenris'), 'type' => 'Ice Giant', 'orbit_index' => 5]);

@@ -10,7 +10,7 @@
                     Navegación Espacial
                 </h1>
                 <p class="text-sm text-blue-400 font-mono">
-                    Sistema: {{ $system->name }} [{{ $system->coords_x }}, {{ $system->coords_y }}]
+                    Sistema: {{ $system->name }}
                 </p>
             </div>
             <div class="text-right">

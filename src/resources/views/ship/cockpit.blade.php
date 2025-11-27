@@ -31,9 +31,6 @@
                     <div class="bg-black/40 p-4 rounded border border-slate-700">
                         <p class="text-xs text-slate-500 font-mono mb-1">UBICACIÓN ACTUAL</p>
                         <h3 class="text-xl text-white font-bold font-['Rajdhani'] uppercase">{{ $system->name ?? 'Espacio Profundo' }}</h3>
-                        <p class="text-xs text-blue-400 font-mono mt-1">
-                            COORDS: {{ $userShip->coords_x }}, {{ $userShip->coords_y }}
-                        </p>
                     </div>
 
                     <div class="space-y-2">

@@ -19,25 +19,24 @@ class StationController extends LocationController
     {
         $player = $this->getPlayer($request);
 
-        // Check if player is docked
-        $isDocked = $station->isShipDocked($player->ship);
+        // Check if player's current location is THIS station
+        $isAtStation = $player->current_location_type === \App\Enums\LocationType::STATION->value 
+                    && (int)$player->current_location_id === (int)$station->id;
 
-        $modules = $station->modules()->get();
-
-        // Determine current module (from player location or default to first)
-        $currentModuleId = $player->character->station_module_id;
-        $currentModule = $modules->firstWhere('id', $currentModuleId) ?? $modules->first();
-
-        // If player has no module assigned but is in station, assign default
-        if (!$currentModuleId && $currentModule) {
-            $player->character->station_module_id = $currentModule->id;
-            $player->character->save();
+        // If player is at the station and has a module assigned, redirect to that module
+        if ($isAtStation && $player->character->station_module_id) {
+            $currentModule = $player->character->currentModule;
+            
+            return redirect()->route('station.module', [
+                'station' => $station,
+                'module' => $currentModule
+            ]);
         }
 
-        // Redirect to the specific module route to enforce URL structure
-        return redirect()->route('station.module', [
-            'station' => $station, 
-            'module' => $currentModule
+        // Otherwise, show external station view (for players in orbit or space)
+        return view('station.index', [
+            'station' => $station,
+            'isDocked' => $isAtStation,
         ]);
     }
 
@@ -120,8 +119,6 @@ class StationController extends LocationController
             $userShip->solar_system_id = $station->solar_system_id;
             $userShip->location_type = \App\Enums\LocationType::SPACE->value;
             $userShip->location_id = null;
-            $userShip->coords_x = $station->coords_x ?? 0;
-            $userShip->coords_y = $station->coords_y ?? 0;
             $userShip->save();
 
             // Update PLAYER location to SHIP (Cockpit)
