@@ -85,12 +85,13 @@ class StationController extends LocationController
             $player->credits -= $dockingFee;
             $player->save();
 
-            // Update player location
-            $this->updatePlayerLocation($request, $station);
-
-            return redirect()
-                ->route('station.show', $station)
-                ->with('success', 'Has atracado exitosamente en ' . $station->getDisplayName());
+            // Update player location and clear action
+            $player->current_location_type = \App\Enums\LocationType::STATION;
+            $player->current_location_id = $station->id;
+            $player->current_ship_id = null;
+            $player->current_action = null;
+            $player->action_started_at = null;
+            $player->save();
         }
 
         return back()->with('error', 'Error al atracar en la estación.');
@@ -121,9 +122,12 @@ class StationController extends LocationController
             $userShip->location_id = null;
             $userShip->save();
 
-            // Update PLAYER location to SHIP (Cockpit)
+            // Update PLAYER location to SHIP and set piloting action
             $player->current_location_type = \App\Enums\LocationType::SHIP;
             $player->current_location_id = $userShip->id;
+            $player->current_ship_id = $userShip->id;
+            $player->current_action = 'piloting';
+            $player->action_started_at = now();
             $player->save();
 
             return redirect()

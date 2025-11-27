@@ -8,7 +8,7 @@
             ['label' => $station->moon->planet->solarSystem->name, 'url' => route('system.show', $station->moon->planet->solarSystem), 'extra' => $station->moon->planet->solarSystem->stars->first()->name ?? 'Unknown'],
             ['label' => $station->moon->planet->name, 'url' => route('planet.show', $station->moon->planet)],
             ['label' => $station->moon->name, 'url' => route('moon.show', $station->moon)],
-            ['label' => $station->name, 'url' => route('station.show', $station)],
+            ['label' => $station->name, 'modal' => 'undock-modal'],
             ['label' => $currentModule->name]
         ]" />
 
@@ -162,6 +162,42 @@
                 <p class="text-slate-500 font-mono text-sm italic">No se detectan otras señales de vida en este sector de la estación.</p>
             @endif
         </x-station.section>
+
+        <!-- Undock Modal -->
+        <x-modal name="undock-modal" title="Desatracar de la Estación">
+            <div class="space-y-6">
+                <p class="text-slate-300 leading-relaxed">
+                    Para ver la estación desde órbita necesitas abordar una de tus naves y desatracar.
+                </p>
+
+                @forelse($ships as $ship)
+                    <div class="border border-blue-500/30 bg-slate-800/50 p-4 rounded-lg">
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <h4 class="text-white font-bold font-['Rajdhani'] uppercase">{{ $ship->pivot->name ?? $ship->name }}</h4>
+                                <p class="text-xs text-slate-400">Clase {{ $ship->class }} // Integridad: {{ $ship->pivot->integrity }}%</p>
+                            </div>
+                        </div>
+                        
+                        <form action="{{ route('station.undock', $station) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="ship_id" value="{{ $ship->id }}">
+                            <x-command-button 
+                                type="submit"
+                                label="ABORDAR Y DESATRACAR" 
+                                description="Iniciar procedimiento de desatraque" 
+                                color="emerald" 
+                            />
+                        </form>
+                    </div>
+                @empty
+                    <div class="border border-red-500/30 bg-slate-800/50 p-6 rounded-lg text-center">
+                        <p class="text-slate-300 mb-2">No tienes naves en esta estación.</p>
+                        <p class="text-xs text-slate-500">Necesitas una nave para poder salir al espacio.</p>
+                    </div>
+                @endforelse
+            </div>
+        </x-modal>
 
         <!-- Footer -->
         <footer class="text-center py-8 text-[10px] text-slate-700 font-mono uppercase tracking-widest border-t border-white/5 mt-12">

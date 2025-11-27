@@ -6,12 +6,21 @@
             <span class="text-slate-600">/</span>
         @endif
         
-        @if(isset($crumb['url']))
-            <a href="{{ $crumb['url'] }}" class="text-slate-500 hover:text-blue-400 transition-colors">
+        @if(isset($crumb['modal']))
+            {{-- Modal trigger instead of URL --}}
+            <button 
+                x-data 
+                @click="$dispatch('open-modal', { name: '{{ $crumb['modal'] }}' })"
+                class="text-slate-500 hover:text-blue-400 transition-colors cursor-pointer uppercase"
+            >
+                {{ $crumb['label'] }}
+            </button>
+        @elseif(isset($crumb['url']))
+            <a href="{{ $crumb['url'] }}" class="text-slate-500 hover:text-blue-400 transition-colors uppercase">
                 {{ $crumb['label'] }}
             </a>
         @else
-            <span class="text-white font-bold">{{ $crumb['label'] }}</span>
+            <span class="text-white font-bold uppercase">{{ $crumb['label'] }}</span>
         @endif
 
         @if(isset($crumb['extra']))

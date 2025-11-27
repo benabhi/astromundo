@@ -24,6 +24,9 @@ class User extends Authenticatable
         'role',
         'current_location_type',
         'current_location_id',
+        'current_ship_id',
+        'current_action',
+        'action_started_at',
     ];
 
     /**
