@@ -26,3 +26,27 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www/html
+
+# Copy composer files first for better layer caching
+COPY src/composer.json src/composer.lock* ./
+
+# Install PHP dependencies
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+# Copy the rest of the application
+COPY src/ .
+
+# Generate optimized autoload files
+RUN composer dump-autoload --optimize
+
+# Install NPM dependencies if package.json exists
+RUN if [ -f "package.json" ]; then npm install; fi
+
+# Copy entrypoint script
+COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["php-fpm"]
+

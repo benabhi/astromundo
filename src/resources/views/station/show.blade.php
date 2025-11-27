@@ -5,16 +5,13 @@
         
         <!-- Header: Location Log -->
         <header class="space-y-2">
-            <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-widest">
-                <span class="text-slate-500">{{ $station->moon->planet->solarSystem->name }}</span>
-                <span class="text-slate-600">({{ $station->moon->planet->solarSystem->stars->first()->name ?? 'Unknown' }})</span>
-                <span class="text-slate-600">/</span>
-                <span class="text-slate-500">{{ $station->moon->planet->name }}</span>
-                <span class="text-slate-600">/</span>
-                <span class="text-slate-500">{{ $station->moon->name }}</span>
-                <span class="text-slate-600">/</span>
-                <span class="text-white font-bold">{{ $station->name }}</span>
-            </div>
+            <x-breadcrumb :crumbs="[
+                ['label' => $station->moon->planet->solarSystem->name, 'url' => route('system.show', $station->moon->planet->solarSystem), 'extra' => $station->moon->planet->solarSystem->stars->first()->name ?? 'Unknown'],
+                ['label' => $station->moon->planet->name, 'url' => route('planet.show', $station->moon->planet)],
+                ['label' => $station->moon->name, 'url' => route('moon.show', $station->moon)],
+                ['label' => $station->name, 'url' => route('station.show', $station)],
+                ['label' => $currentModule->name]
+            ]" />
             <h1 class="text-4xl md:text-5xl font-bold text-white font-['Orbitron'] tracking-tight uppercase drop-shadow-lg">
                 {{ $station->name }}
             </h1>
@@ -91,15 +88,12 @@
 
                 <div class="flex flex-wrap gap-4">
                     @foreach($station->modules as $module)
-                        <form action="{{ route('station.move', $module->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="text-sm font-mono uppercase tracking-wider {{ $module->id === $currentModule->id ? 'text-blue-500 cursor-default' : 'text-slate-400 hover:text-white hover:underline decoration-blue-500 underline-offset-4 transition-all' }}">
-                                @if($module->id === $currentModule->id)
-                                    <span class="mr-1">*</span>
-                                @endif
-                                {{ $module->name }}
-                            </button>
-                        </form>
+                        <a href="{{ route('station.module', ['station' => $station, 'module' => $module]) }}" class="text-sm font-mono uppercase tracking-wider {{ $module->id === $currentModule->id ? 'text-blue-500 cursor-default' : 'text-slate-400 hover:text-white hover:underline decoration-blue-500 underline-offset-4 transition-all' }}">
+                            @if($module->id === $currentModule->id)
+                                <span class="mr-1">*</span>
+                            @endif
+                            {{ $module->name }}
+                        </a>
                     @endforeach
                 </div>
             </div>

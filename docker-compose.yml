@@ -13,6 +13,9 @@ services:
         working_dir: /var/www/html
         volumes:
             - ./src:/var/www/html
+            # Use named volumes for dependencies to avoid host conflicts
+            - vendor:/var/www/html/vendor
+            - node_modules:/var/www/html/node_modules
         networks:
             - laravel
 
@@ -53,3 +56,7 @@ services:
 networks:
     laravel:
         driver: bridge
+
+volumes:
+    vendor:
+    node_modules:

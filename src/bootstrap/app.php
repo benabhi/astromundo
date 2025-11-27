@@ -14,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
             'has_character' => \App\Http\Middleware\EnsureHasCharacter::class,
+            'ensure_location' => \App\Http\Middleware\EnsurePlayerLocation::class,
+            'track_location' => \App\Http\Middleware\TrackPlayerLocation::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

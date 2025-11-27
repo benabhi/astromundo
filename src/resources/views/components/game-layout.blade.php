@@ -85,7 +85,7 @@
                     <span class="text-xs font-bold text-blue-500 hover:text-blue-400 uppercase tracking-widest transition-colors font-['Rajdhani']">{{ Auth::user()->character->first_name }}</span>
                     
                     <!-- Minimal Logout Link -->
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                    <form method="POST" action="{{ route('logout') }}" class="flex items-center">
                         @csrf
                         <button type="submit" class="text-[10px] font-bold text-slate-600 hover:text-red-400 uppercase tracking-widest transition-colors font-['Rajdhani']">
                             [ SALIR ]

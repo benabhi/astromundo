@@ -47,13 +47,13 @@ class CharacterCreationController extends Controller
         $user = Auth::user();
 
         // Get Starting Station based on Role
-        $stationName = match ($request->role) {
-            'miner' => 'Station Alpha',
-            'transporter' => 'Sector 9',
-            'hunter' => 'Deep Void',
+        $stationSlug = match ($request->role) {
+            'miner' => 'estacion-alfa',
+            'transporter' => 'sector-9',
+            'hunter' => 'vacio-profundo',
         };
 
-        $station = \App\Models\Station::where('name', $stationName)->first();
+        $station = \App\Models\Station::where('slug', $stationSlug)->first();
         
         // Fallback if seeding failed or name mismatch
         if (!$station) {
@@ -81,6 +81,11 @@ class CharacterCreationController extends Controller
             'integrity' => 100,
             'energy' => 100,
         ]);
+
+        // Update User Location
+        $user->current_location_type = \App\Enums\LocationType::STATION->value;
+        $user->current_location_id = $station->id;
+        $user->save();
 
         // Assign Starting Assets
         $this->assignStartingAssets($character, $request->role);
