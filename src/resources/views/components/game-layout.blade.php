@@ -54,6 +54,11 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.4);
         }
+        
+        /* Global Text Shadow for legibility on dark backgrounds */
+        body {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body class="h-full font-sans antialiased text-slate-300 bg-black overflow-hidden selection:bg-blue-500 selection:text-white">
@@ -61,10 +66,17 @@
     <!-- Background Layer (Matches Home Page Style) -->
     <!-- Changed z-[-1] to z-0 to prevent body background from covering it -->
     <div class="fixed inset-0 z-0">
-        <img src="{{ $bgImage ?? '/images/backgrounds/station_bg.png' }}" alt="Background" class="w-full h-full object-cover opacity-50">
+        <!-- Image with higher opacity to keep details -->
+        <img src="{{ $bgImage ?? '/images/backgrounds/station_bg.png' }}" alt="Background" class="w-full h-full object-cover opacity-60">
+        
+        <!-- Heavy dark overlay to dim the brightness -->
+        <div class="absolute inset-0 bg-black/80"></div>
+        
+        <!-- Gradient for depth -->
         <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+        
         <div class="absolute inset-0 vignette"></div>
-        <div class="absolute inset-0 scanline opacity-10 pointer-events-none"></div>
+        <div class="absolute inset-0 scanline opacity-5 pointer-events-none"></div>
     </div>
 
     <div class="flex flex-col h-screen overflow-hidden font-['Rajdhani']" x-data="{ mobileMenuOpen: false }">
