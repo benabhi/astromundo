@@ -28,14 +28,50 @@
 
             <!-- Module Image (if available) -->
             @if($currentModule->type === 'quarters')
-                <div class="rounded-lg overflow-hidden border border-slate-700/50 shadow-2xl">
-                    <img 
-                        src="{{ asset('images/modules/habitat-deck.png') }}" 
-                        alt="Vista interior de la cubierta de habitación - {{ $station->name }}" 
-                        class="w-full h-auto object-cover max-h-96"
-                        loading="lazy"
-                    >
+                <div class="relative group">
+                    <!-- Main Image Container -->
+                    <div class="relative overflow-hidden border-2 border-blue-500/30 shadow-2xl" style="clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));">
+                        <img 
+                            src="{{ asset('images/modules/habitat-deck.png') }}" 
+                            alt="Vista interior de la cubierta de habitación - {{ $station->name }}" 
+                            class="w-full h-auto object-cover max-h-96 opacity-90"
+                            loading="lazy"
+                        >
+                        
+                        <!-- Tech Grid Overlay -->
+                        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59, 130, 246, 0.1) 2px, rgba(59, 130, 246, 0.1) 4px), repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(59, 130, 246, 0.1) 2px, rgba(59, 130, 246, 0.1) 4px);"></div>
+                        
+                        <!-- Scan Line Animation -->
+                        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                            <div class="absolute w-full h-1 bg-gradient-to-r from-transparent via-blue-400/50 to-transparent animate-scan"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Corner Brackets -->
+                    <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-blue-400"></div>
+                    <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-blue-400" style="transform: translateX(-20px);"></div>
+                    <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-blue-400" style="transform: translateY(-20px);"></div>
+                    <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-blue-400" style="transform: translate(-20px, -20px);"></div>
+                    
+                    <!-- Tech Labels -->
+                    <div class="absolute top-2 left-2 text-[10px] font-mono text-blue-400 bg-black/50 px-2 py-1 backdrop-blur-sm">
+                        CAM-{{ $currentModule->id }} // FEED ACTIVO
+                    </div>
+                    <div class="absolute bottom-2 right-2 text-[10px] font-mono text-blue-400 bg-black/50 px-2 py-1 backdrop-blur-sm">
+                        {{ now()->format('H:i:s') }}
+                    </div>
                 </div>
+                
+                <!-- Add animation CSS -->
+                <style>
+                    @keyframes scan {
+                        0% { transform: translateY(-100%); }
+                        100% { transform: translateY(400%); }
+                    }
+                    .animate-scan {
+                        animation: scan 3s linear infinite;
+                    }
+                </style>
             @endif
 
             <!-- Module Description -->
