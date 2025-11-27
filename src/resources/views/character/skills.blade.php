@@ -1,10 +1,15 @@
 <x-game-layout>
     <div class="max-w-4xl mx-auto space-y-8">
         
-        <header class="flex items-center justify-between border-b border-white/10 pb-4">
-            <h1 class="text-3xl font-bold text-white font-['Orbitron'] tracking-widest uppercase">
-                Matriz de Habilidades
-            </h1>
+        <header class="pb-4">
+            <div class="flex justify-between items-center mb-1">
+                <h1 class="text-2xl md:text-3xl font-bold text-white font-['Orbitron'] tracking-widest uppercase">
+                    Matriz de Habilidades
+                </h1>
+                <!-- Close Button -->
+                <x-text-action-button :href="route('dashboard')">CERRAR</x-text-action-button>
+            </div>
+            
             <div class="text-xs text-slate-500 font-mono uppercase">
                 Total Skills: {{ $character->skills->count() }}
             </div>
@@ -13,13 +18,7 @@
         <div class="space-y-12">
             @foreach(['piloting', 'industry', 'trade', 'science', 'combat'] as $category)
                 @if(isset($skills[$category]) && $skills[$category]->count() > 0)
-                    <section>
-                        <div class="flex items-center gap-4 mb-6">
-                            <h2 class="text-xl font-bold text-blue-400 font-['Rajdhani'] uppercase tracking-widest">
-                                {{ ucfirst($category) }}
-                            </h2>
-                            <div class="h-px flex-grow bg-blue-500/20"></div>
-                        </div>
+                    <x-station.section :title="ucfirst($category)" border="blue" subtitle="Categoría de Habilidad">
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             @foreach($skills[$category] as $skill)
@@ -58,7 +57,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </section>
+                    </x-station.section>
                 @endif
             @endforeach
         </div>

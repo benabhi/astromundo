@@ -99,9 +99,7 @@
                     <!-- Minimal Logout Link -->
                     <form method="POST" action="{{ route('logout') }}" class="flex items-center">
                         @csrf
-                        <button type="submit" class="text-[10px] font-bold text-slate-600 hover:text-red-400 uppercase tracking-widest transition-colors font-['Rajdhani']">
-                            [ SALIR ]
-                        </button>
+                        <x-text-action-button type="button" onclick="this.closest('form').submit()">SALIR</x-text-action-button>
                     </form>
                 </div>
             </x-slot>
