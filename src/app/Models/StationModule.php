@@ -16,4 +16,9 @@ class StationModule extends Model
     {
         return $this->belongsTo(Station::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

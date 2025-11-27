@@ -26,104 +26,89 @@
         </header>
 
         <!-- Main Terminal: Current Module -->
-        <section class="relative group">
-            <!-- Decorative "Terminal" Line -->
-            <div class="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500 via-white/10 to-transparent"></div>
+        <x-station.section :title="$currentModule->name" border="blue" subtitle="ID Módulo: {{ $currentModule->id }} // Estado: ACTIVO">
             
-            <div class="pl-8 md:pl-12 space-y-8">
+            <!-- Narrative Description -->
+            <div class="prose prose-invert max-w-none mb-8">
+                <p class="text-lg text-slate-200 font-['Space_Mono'] leading-relaxed drop-shadow-md">
+                    {{ $currentModule->description }}
+                </p>
+            </div>
+
+            <!-- Command Interface (Actions) -->
+            <div class="space-y-4 pt-4">
+                <h3 class="text-xs text-slate-400 font-bold uppercase tracking-widest border-b border-white/10 pb-2 mb-4 w-max">Comandos Disponibles</h3>
                 
-                <!-- Module Header -->
-                <div class="relative">
-                    <div class="absolute -left-[41px] md:-left-[57px] top-1.5 w-3 h-3 bg-black border-2 border-blue-500 rounded-full z-10"></div>
-                    <h2 class="text-2xl font-bold text-white font-['Rajdhani'] uppercase tracking-wide drop-shadow-md">
-                        <span class="text-blue-500 mr-2">></span> {{ $currentModule->name }}
-                    </h2>
-                    <p class="text-xs text-slate-400 font-mono mt-1 uppercase tracking-widest">ID Módulo: {{ $currentModule->id }} // Estado: ACTIVO</p>
-                </div>
-
-                <!-- Narrative Description -->
-                <div class="prose prose-invert max-w-none">
-                    <p class="text-lg text-slate-200 font-['Space_Mono'] leading-relaxed drop-shadow-md">
-                        {{ $currentModule->description }}
-                    </p>
-                </div>
-
-                <!-- Command Interface (Actions) -->
-                <div class="space-y-4 pt-4">
-                    <h3 class="text-xs text-slate-400 font-bold uppercase tracking-widest border-b border-white/10 pb-2 mb-4 w-max">Comandos Disponibles</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        @if($currentModule->type === 'Habitation')
-                            <button class="group flex items-center gap-3 text-left hover:bg-white/5 p-2 -ml-2 rounded transition-all">
-                                <span class="text-blue-500 font-mono group-hover:text-white transition-colors">[ > PROTOCOLO_DESCANSO ]</span>
-                                <span class="text-sm text-slate-300 group-hover:text-blue-200">Restaurar Energía (+10%)</span>
-                            </button>
-                            <button class="group flex items-center gap-3 text-left hover:bg-white/5 p-2 -ml-2 rounded transition-all">
-                                <span class="text-blue-500 font-mono group-hover:text-white transition-colors">[ > ACCEDER_REGISTROS ]</span>
-                                <span class="text-sm text-slate-300 group-hover:text-blue-200">Ver Mensajes Personales</span>
-                            </button>
-                        @elseif($currentModule->type === 'Market')
-                            <button class="group flex items-center gap-3 text-left hover:bg-white/5 p-2 -ml-2 rounded transition-all">
-                                <span class="text-emerald-500 font-mono group-hover:text-white transition-colors">[ > ABRIR_MERCADO ]</span>
-                                <span class="text-sm text-slate-300 group-hover:text-emerald-200">Ver Mercancías</span>
-                            </button>
-                        @endif
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Transit Network (Secondary Terminal) -->
-        <section class="relative group pt-8">
-            <div class="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-slate-700 via-white/5 to-transparent"></div>
-            
-            <div class="pl-8 md:pl-12 space-y-6">
-                <div class="relative">
-                    <div class="absolute -left-[41px] md:-left-[57px] top-1.5 w-3 h-3 bg-black border-2 border-slate-700 rounded-full z-10"></div>
-                    <h3 class="text-xl font-bold text-slate-300 font-['Rajdhani'] uppercase tracking-wide">
-                        Red de Tránsito de la Estación
-                    </h3>
-                </div>
-
-                <div class="flex flex-wrap gap-4">
-                    @foreach($station->modules as $module)
-                        <a href="{{ route('station.module', ['station' => $station, 'module' => $module]) }}" class="text-sm font-mono uppercase tracking-wider {{ $module->id === $currentModule->id ? 'text-blue-500 cursor-default' : 'text-slate-400 hover:text-white hover:underline decoration-blue-500 underline-offset-4 transition-all' }}">
-                            @if($module->id === $currentModule->id)
-                                <span class="mr-1">*</span>
-                            @endif
-                            {{ $module->name }}
-                        </a>
-                    @endforeach
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @if($currentModule->type === 'quarters')
+                        <x-command-button 
+                            label="PROTOCOLO_DESCANSO" 
+                            description="Restaurar Energía (+10%)" 
+                            color="blue" 
+                        />
+                        <x-command-button 
+                            label="ACCEDER_REGISTROS" 
+                            description="Ver Mensajes Personales" 
+                            color="blue" 
+                        />
+                    @elseif($currentModule->type === 'market')
+                        <x-command-button 
+                            label="ABRIR_MERCADO" 
+                            description="Ver Mercancías" 
+                            color="emerald" 
+                        />
+                    @elseif($currentModule->type === 'hangar')
+                        @forelse($ships as $ship)
+                            <form action="{{ route('station.undock', $station) }}" method="POST" class="w-full">
+                                @csrf
+                                <input type="hidden" name="ship_id" value="{{ $ship->id }}">
+                                <x-command-button 
+                                    type="submit" 
+                                    label="ABORDAR_NAVE_{{ strtoupper(str_replace(' ', '_', $ship->pivot->name ?? $ship->name)) }}" 
+                                    description="Clase {{ $ship->class }} // {{ $ship->pivot->integrity }}% INT" 
+                                    color="blue" 
+                                />
+                            </form>
+                            
+                            <x-command-button 
+                                label="SISTEMAS_{{ strtoupper(str_replace(' ', '_', $ship->pivot->name ?? $ship->name)) }}" 
+                                description="Estado de la nave y carga" 
+                                color="blue" 
+                            />
+                        @empty
+                            <div class="col-span-1 md:col-span-2 text-center py-8 border border-dashed border-slate-700 rounded">
+                                <p class="text-slate-500 font-mono text-sm">No tienes naves en este hangar.</p>
+                            </div>
+                        @endforelse
+                    @endif
                 </div>
             </div>
-        </section>
+
+        </x-station.section>
+
+        <!-- Transit Network -->
+        <x-station.transit-network :station="$station" :currentModule="$currentModule" />
 
         <!-- Scanner Results (Pilots) -->
-        <section class="relative group pt-8 pb-12">
-            <div class="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-slate-800 via-transparent to-transparent"></div>
-            
-            <div class="pl-8 md:pl-12 space-y-6">
-                <div class="relative">
-                    <div class="absolute -left-[41px] md:-left-[57px] top-1.5 w-3 h-3 bg-black border-2 border-slate-800 rounded-full z-10"></div>
-                    <h3 class="text-sm font-bold text-slate-400 font-['Rajdhani'] uppercase tracking-widest">
-                        Resultados del Escáner Local
-                    </h3>
-                </div>
-
-                <div class="space-y-2">
-                    @forelse($localPilots as $pilot)
-                        <div class="flex items-center gap-4 text-sm font-mono text-slate-300">
-                            <span class="text-blue-900">ID:{{ str_pad($pilot->id, 4, '0', STR_PAD_LEFT) }}</span>
-                            <span class="text-white">{{ $pilot->first_name }} {{ $pilot->last_name }}</span>
-                            <span class="text-slate-500">[{{ $pilot->role ?? 'PILOTO' }}]</span>
+        <x-station.section title="Escáner de Proximidad" border="emerald" subtitle="Rango: LOCAL // Señales: {{ $localPilots->count() }}">
+            @if($localPilots->count() > 0)
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach($localPilots as $pilot)
+                        <div class="bg-slate-800/50 border border-slate-700 p-4 rounded flex items-center space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 font-bold">
+                                {{ substr($pilot->first_name, 0, 1) }}
+                            </div>
+                            <div>
+                                <div class="text-white font-bold">{{ $pilot->first_name }} {{ $pilot->last_name }}</div>
+                                <div class="text-xs text-slate-400">Piloto</div>
+                            </div>
                         </div>
-                    @empty
-                        <p class="text-xs text-slate-500 font-mono italic">No se detectaron otras señales en las inmediaciones.</p>
-                    @endforelse
+                    @endforeach
                 </div>
-            </div>
-        </section>
+            @else
+                <p class="text-slate-500 font-mono text-sm italic">No se detectan otras señales de vida en este sector de la estación.</p>
+            @endif
+        </x-station.section>
 
     </div>
 </x-game-layout>

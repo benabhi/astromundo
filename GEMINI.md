@@ -16,3 +16,4 @@
 3. **Server-Side Only**: No client-side frameworks (React/Vue/etc.). All logic and rendering must be server-side.
 4. **Responsiveness**: The site MUST be fully responsive on all devices. This is non-negotiable.
 5. **Language**: All content stored in the database (names, descriptions, etc.) MUST be in Spanish.
+6. **Componentization**: Maintain a homogeneous UI by creating reusable Blade components for common UI elements (sections, menus, modals). Avoid code duplication in views.

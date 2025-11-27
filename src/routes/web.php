@@ -50,6 +50,9 @@ Route::middleware(['auth', 'verified', 'has_character', 'track_location'])->grou
                 case \App\Enums\LocationType::MOON->value:
                     $moon = \App\Models\Moon::find($id);
                     return $moon ? redirect()->route('moon.show', $moon) : redirect()->route('system.show', 'helios');
+
+                case \App\Enums\LocationType::SHIP->value:
+                    return redirect()->route('ship.cockpit');
                 
                 case \App\Enums\LocationType::SPACE->value:
                     // Space usually relates to a system
@@ -92,7 +95,16 @@ Route::middleware(['auth', 'verified', 'has_character', 'track_location'])->grou
         Route::post('/undock', [StationController::class, 'undock'])->name('undock');
 
         // Módulos de la estación
-        Route::get('/module/{module}', [StationModuleController::class, 'show'])->name('module');
+        Route::get('/module/{module}', [StationModuleController::class, 'show'])
+            ->name('module')
+            ->scopeBindings();
+    });
+
+    // ==========================================
+    // SHIP ROUTES
+    // ==========================================
+    Route::prefix('ship')->name('ship.')->group(function () {
+        Route::get('/cockpit', [\App\Http\Controllers\Ship\ShipController::class, 'cockpit'])->name('cockpit');
     });
 
     // ==========================================

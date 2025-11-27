@@ -34,22 +34,26 @@ class UniverseSeeder extends Seeder
         $stationAlpha->modules()->createMany([
             [
                 'name' => 'Cubierta de Habitación', 
-                'type' => 'Habitation', 
+                'slug' => Str::slug('Cubierta de Habitación'),
+                'type' => 'quarters', 
                 'description' => 'Literas estrechas pero funcionales se alinean en las paredes, vibrando ligeramente con los sistemas de soporte vital de la estación. Terminales personales brillan suavemente en la luz tenue, ofreciendo la única conexión con el mundo exterior.'
             ],
             [
                 'name' => 'Hangar Principal', 
-                'type' => 'Hangar', 
+                'slug' => Str::slug('Hangar Principal'),
+                'type' => 'hangar', 
                 'description' => 'La cavernosa bahía del hangar resuena con el estruendo de abrazaderas magnéticas y el siseo del refrigerante. Barcazas mineras entran y salen del escudo atmosférico, con sus cascos marcados por el polvo de asteroides.'
             ],
             [
                 'name' => 'El Pico Oxidado', 
-                'type' => 'Cantina', 
+                'slug' => Str::slug('El Pico Oxidado'),
+                'type' => 'bar', 
                 'description' => 'Una neblina de humo flota en el aire de este bar de mala muerte de baja gravedad. Los mineros apuestan sus créditos en juegos de dados holográficos mientras una vieja máquina de discos toca jazz rayado de la Vieja Tierra.'
             ],
             [
                 'name' => 'Intercambio Mineral', 
-                'type' => 'Market', 
+                'slug' => Str::slug('Intercambio Mineral'),
+                'type' => 'market', 
                 'description' => 'Las pantallas parpadean con precios de mineral en tiempo real de todo el sector. Los comerciantes gritan ofertas sobre el ruido de las máquinas de teletipo, y se hacen o pierden fortunas con la fluctuación de un solo punto porcentual.'
             ],
         ]);
@@ -74,17 +78,20 @@ class UniverseSeeder extends Seeder
         $sector9->modules()->createMany([
             [
                 'name' => 'Cubierta de Habitación', 
-                'type' => 'Habitation', 
+                'slug' => Str::slug('Cubierta de Habitación'),
+                'type' => 'quarters', 
                 'description' => 'Apartamentos espaciosos con tragaluces simulados que ofrecen vistas de la nebulosa. El aire está perfumado con lavanda sintética y el revestimiento de gravedad está calibrado para el máximo confort.'
             ],
             [
                 'name' => 'Muelle Central', 
-                'type' => 'Hangar', 
+                'slug' => Str::slug('Muelle Central'),
+                'type' => 'hangar', 
                 'description' => 'Una inmensa cúpula presurizada capaz de dar servicio a naves capitales. Cargadores automatizados mueven contenedores de carga con precisión de ballet, y los oficiales de aduanas son sorprendentemente educados.'
             ],
             [
                 'name' => 'Gran Bazar', 
-                'type' => 'Market', 
+                'slug' => Str::slug('Gran Bazar'),
+                'type' => 'market', 
                 'description' => 'Un laberinto de puestos y boutiques que venden de todo, desde especias exóticas hasta cibernética ilegal. El zumbido del comercio es un ruido de fondo constante y relajante.'
             ],
         ]);
@@ -107,17 +114,20 @@ class UniverseSeeder extends Seeder
         $deepVoid->modules()->createMany([
             [
                 'name' => 'Cubierta de Habitación', 
-                'type' => 'Habitation', 
+                'slug' => Str::slug('Cubierta de Habitación'),
+                'type' => 'quarters', 
                 'description' => 'Celdas austeras con cerraduras reforzadas. El único sonido es el goteo de la condensación y el grito lejano ocasional. La privacidad está garantizada, por un precio.'
             ],
             [
                 'name' => 'Muelle de las Sombras', 
-                'type' => 'Hangar', 
+                'slug' => Str::slug('Muelle de las Sombras'),
+                'type' => 'hangar', 
                 'description' => 'Las abrazaderas de atraque son magnéticas y silenciosas. Las naves llegan y salen sin planes de vuelo, con sus transpondedores desactivados. Los mecánicos aquí no hacen preguntas.'
             ],
             [
                 'name' => 'Tablón de Recompensas', 
-                'type' => 'Office', 
+                'slug' => Str::slug('Tablón de Recompensas'),
+                'type' => 'administration', 
                 'description' => 'Un proyector holográfico muestra los rostros de los más buscados de la galaxia. Los cazadores se reúnen aquí para intercambiar consejos y afilar sus cuchillas. El aire está cargado de tensión y oportunidad.'
             ],
         ]);

@@ -61,4 +61,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Character::class);
     }
+
+    /**
+     * Get the player's active ship (shortcut)
+     */
+    public function getShipAttribute()
+    {
+        return $this->character?->ships->first();
+    }
 }

@@ -34,13 +34,10 @@ class StationController extends LocationController
             $player->character->save();
         }
 
-        return $this->viewWithLocation('station.show', [
-            'station' => $station,
-            'isDocked' => $isDocked,
-            'modules' => $modules,
-            'currentModule' => $currentModule,
-            'localPilots' => $station->characters()->where('id', '!=', $player->character->id)->get(), // Also needed for view
-            'dockingBaysAvailable' => $station->getAvailableDockingBays(),
+        // Redirect to the specific module route to enforce URL structure
+        return redirect()->route('station.module', [
+            'station' => $station, 
+            'module' => $currentModule
         ]);
     }
 
@@ -106,16 +103,35 @@ class StationController extends LocationController
     public function undock(Request $request, Station $station)
     {
         $player = $this->getPlayer($request);
-        $ship = $player->ship;
+        
+        // Determine which ship to undock
+        $shipId = $request->input('ship_id');
+        $ship = $shipId 
+            ? $player->character->ships()->find($shipId) 
+            : $player->ship;
+
+        if (!$ship) {
+            return back()->with('error', 'Nave no encontrada o no te pertenece.');
+        }
 
         if ($station->undock($ship)) {
-            // Update location to space
-            $space = $station->solarSystem;
-            $this->updatePlayerLocation($request, $space);
+            // Update SHIP location to space (at station coords)
+            $userShip = $ship->pivot;
+            $userShip->solar_system_id = $station->solar_system_id;
+            $userShip->location_type = \App\Enums\LocationType::SPACE->value;
+            $userShip->location_id = null;
+            $userShip->coords_x = $station->coords_x ?? 0;
+            $userShip->coords_y = $station->coords_y ?? 0;
+            $userShip->save();
+
+            // Update PLAYER location to SHIP (Cockpit)
+            $player->current_location_type = \App\Enums\LocationType::SHIP;
+            $player->current_location_id = $userShip->id;
+            $player->save();
 
             return redirect()
-                ->route('system.space', $space)
-                ->with('success', 'Has desatracado de ' . $station->getDisplayName());
+                ->route('ship.cockpit')
+                ->with('success', 'Has desatracado. Bienvenido al puente de mando.');
         }
 
         return back()->with('error', 'Error al desatracar de la estación.');

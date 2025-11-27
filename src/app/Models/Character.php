@@ -55,7 +55,8 @@ class Character extends Model
     public function ships()
     {
         return $this->belongsToMany(Ship::class, 'character_ships')
-            ->withPivot('name', 'integrity')
+            ->using(UserShip::class)
+            ->withPivot('id', 'name', 'integrity', 'solar_system_id', 'location_type', 'location_id', 'coords_x', 'coords_y')
             ->withTimestamps();
     }
 }

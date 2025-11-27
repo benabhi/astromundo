@@ -64,6 +64,7 @@ enum LocationType: string
             self::STATION,
             self::PLANET,
             self::MOON,
+            self::SHIP,
         ]);
     }
 

@@ -174,9 +174,7 @@
             </div>
 
             <!-- FOOTER: Static at bottom of content -->
-            <footer class="w-full py-8 text-center text-[10px] text-slate-500 font-mono uppercase tracking-widest mt-12 border-t border-white/5">
-                <span class="opacity-70">System: {{ $systemName ?? 'Unknown' }} // Connection Stable</span>
-            </footer>
+
         </main>
 
         <!-- MOBILE DRAWER -->
