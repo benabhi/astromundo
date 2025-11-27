@@ -22,30 +22,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('skills', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code')->unique();
-            $table->integer('multiplier')->default(1);
-            $table->timestamps();
-        });
-
-        Schema::create('skill_dependencies', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('skill_id')->constrained()->onDelete('cascade');
-            $table->foreignId('required_skill_id')->constrained('skills')->onDelete('cascade');
-            $table->integer('required_level')->default(1);
-            $table->timestamps();
-        });
-
-        Schema::create('character_skills', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('character_id')->constrained()->onDelete('cascade');
-            $table->foreignId('skill_id')->constrained()->onDelete('cascade');
-            $table->integer('level')->default(1);
-            $table->integer('xp')->default(0);
-            $table->timestamps();
-        });
+        // Skills tables moved to separate migrations
+        // 2025_11_27_135939_create_skills_table.php
+        // 2025_11_27_135953_create_skill_dependencies_table.php
+        // 2025_11_27_135958_create_character_skills_table.php
 
         Schema::create('ships', function (Blueprint $table) {
             $table->id();
@@ -71,9 +51,9 @@ return new class extends Migration
     {
         Schema::dropIfExists('character_ships');
         Schema::dropIfExists('ships');
-        Schema::dropIfExists('character_skills');
-        Schema::dropIfExists('skill_dependencies');
-        Schema::dropIfExists('skills');
+        // Schema::dropIfExists('character_skills');
+        // Schema::dropIfExists('skill_dependencies');
+        // Schema::dropIfExists('skills');
         Schema::dropIfExists('characters');
     }
 };

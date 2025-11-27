@@ -28,37 +28,44 @@
 
             <!-- Module Image (if available) -->
             @if($currentModule->type === 'quarters')
-                <div class="relative group">
-                    <!-- Main Image Container -->
-                    <div class="relative overflow-hidden border-2 border-blue-500/30 shadow-2xl" style="clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));">
+                <div class="relative group cursor-pointer">
+                    <!-- Clipped Container for Image & Effects -->
+                    <div class="relative overflow-hidden border-2 border-blue-500 group-hover:border-blue-300 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.8)]" 
+                         style="clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));">
+                        
+                        <!-- Image with Zoom (Added block to remove bottom gap) -->
                         <img 
                             src="{{ asset('images/modules/habitat-deck.png') }}" 
                             alt="Vista interior de la cubierta de habitación - {{ $station->name }}" 
-                            class="w-full h-auto object-cover max-h-96 opacity-90"
+                            class="w-full h-auto object-cover max-h-96 opacity-90 filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out block"
                             loading="lazy"
                         >
                         
                         <!-- Tech Grid Overlay -->
                         <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59, 130, 246, 0.1) 2px, rgba(59, 130, 246, 0.1) 4px), repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(59, 130, 246, 0.1) 2px, rgba(59, 130, 246, 0.1) 4px);"></div>
                         
-                        <!-- Scan Line Animation -->
-                        <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                            <div class="absolute w-full h-1 bg-gradient-to-r from-transparent via-blue-400/50 to-transparent animate-scan"></div>
+                        <!-- Tech Distortion Scanline (Hover Only) -->
+                        <div class="absolute left-0 w-full h-24 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 animate-scan-tech pointer-events-none"
+                             style="background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.6), transparent); 
+                                    backdrop-filter: hue-rotate(180deg) blur(2px) contrast(2.0);
+                                    -webkit-backdrop-filter: hue-rotate(180deg) blur(2px) contrast(2.0);">
+                             
+                             <!-- Bright Leading Edge -->
+                             <div class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-400 shadow-[0_0_15px_rgba(96,165,250,1)]"></div>
+                             
+                             <!-- Scanline Noise Pattern -->
+                             <div class="absolute inset-0 opacity-30" 
+                                  style="background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.5) 2px, rgba(255, 255, 255, 0.5) 3px);">
+                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Corner Brackets -->
-                    <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-blue-400"></div>
-                    <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-blue-400" style="transform: translateX(-20px);"></div>
-                    <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-blue-400" style="transform: translateY(-20px);"></div>
-                    <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-blue-400" style="transform: translate(-20px, -20px);"></div>
-                    
-                    <!-- Tech Labels -->
-                    <div class="absolute top-2 left-2 text-[10px] font-mono text-blue-400 bg-black/50 px-2 py-1 backdrop-blur-sm">
-                        CAM-{{ $currentModule->id }} // FEED ACTIVO
-                    </div>
-                    <div class="absolute bottom-2 right-2 text-[10px] font-mono text-blue-400 bg-black/50 px-2 py-1 backdrop-blur-sm">
-                        {{ now()->format('H:i:s') }}
+
+                        <!-- Tech Labels (Inside Clipped Container) -->
+                        <div class="absolute top-2 left-2 text-[10px] font-mono text-blue-400 bg-black/50 px-2 py-1 backdrop-blur-sm z-50 pointer-events-none">
+                            CAM-{{ $currentModule->id }} // FEED ACTIVO
+                        </div>
+                        <div class="absolute bottom-0 right-0 text-[10px] font-mono text-blue-400 bg-black/50 px-2 py-1 backdrop-blur-sm z-50 pointer-events-none" style="transform: translateY(-0.5rem);">
+                            {{ now()->format('H:i:s') }}
+                        </div>
                     </div>
                 </div>
                 
