@@ -101,15 +101,15 @@ class CharacterCreationController extends Controller
         $assets = match ($role) {
             'miner' => [
                 'ship' => ['name' => 'Mole-class Excavator', 'class' => 'Miner'],
-                'skill' => ['name' => 'Mining', 'code' => 'MINING', 'multiplier' => 1],
+                'skills' => ['PILOTING_BASIC', 'MINING_BASIC'],
             ],
             'transporter' => [
                 'ship' => ['name' => 'Mule-class Hauler', 'class' => 'Hauler'],
-                'skill' => ['name' => 'Logistics', 'code' => 'LOGISTICS', 'multiplier' => 1],
+                'skills' => ['PILOTING_BASIC', 'PILOTING_CARGO', 'TRADE_BASIC'],
             ],
             'hunter' => [
                 'ship' => ['name' => 'Dart-class Interceptor', 'class' => 'Fighter'],
-                'skill' => ['name' => 'Gunnery', 'code' => 'GUNNERY', 'multiplier' => 1],
+                'skills' => ['PILOTING_BASIC', 'PILOTING_COMBAT', 'GUNNERY_SMALL'],
             ],
         };
 
@@ -120,11 +120,16 @@ class CharacterCreationController extends Controller
         );
         $character->ships()->attach($ship->id, ['name' => $assets['ship']['name']]);
 
-        // Create/Get Skill
-        $skill = Skill::firstOrCreate(
-            ['code' => $assets['skill']['code']],
-            ['name' => $assets['skill']['name'], 'multiplier' => $assets['skill']['multiplier']]
-        );
-        $character->skills()->attach($skill->id, ['level' => 1, 'xp' => 0]);
+        // Assign Skills
+        foreach ($assets['skills'] as $skillCode) {
+            $skill = Skill::where('code', $skillCode)->first();
+            if ($skill) {
+                $character->skills()->attach($skill->id, [
+                    'level' => 1, 
+                    'xp' => 0,
+                    'injected_at' => now(),
+                ]);
+            }
+        }
     }
 }

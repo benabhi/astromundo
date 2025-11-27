@@ -140,6 +140,12 @@
 
                     <!-- Quick Nav (Secondary) -->
                     <nav class="mt-8 space-y-2">
+                        <a href="{{ route('character.license') }}" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest {{ request()->routeIs('character.license') ? 'text-white border-blue-500 bg-white/5' : '' }}">
+                            Licencia
+                        </a>
+                        <a href="{{ route('character.skills') }}" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest {{ request()->routeIs('character.skills') ? 'text-white border-blue-500 bg-white/5' : '' }}">
+                            Habilidades
+                        </a>
                         <a href="#" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent hover:border-white/20 transition-all uppercase tracking-widest">
                             Activos
                         </a>
@@ -234,6 +240,8 @@
 
                     <!-- Sidebar Links (Mobile Copy) -->
                     <nav class="space-y-2">
+                        <a href="{{ route('character.license') }}" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest {{ request()->routeIs('character.license') ? 'text-white' : '' }}">Licencia</a>
+                        <a href="{{ route('character.skills') }}" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest {{ request()->routeIs('character.skills') ? 'text-white' : '' }}">Habilidades</a>
                         <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Activos</a>
                         <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Billetera</a>
                         <a href="#" class="block py-2 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Corporación</a>

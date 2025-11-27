@@ -48,8 +48,22 @@ class Character extends Model
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'character_skills')
-            ->withPivot('level', 'xp')
+            ->withPivot('level', 'xp', 'injected_at')
             ->withTimestamps();
+    }
+
+    public function hasSkill(string $skillCode, int $minLevel = 1): bool
+    {
+        return $this->skills()
+            ->where('code', $skillCode)
+            ->wherePivot('level', '>=', $minLevel)
+            ->exists();
+    }
+
+    public function getSkillLevel(string $skillCode): int
+    {
+        $skill = $this->skills()->where('code', $skillCode)->first();
+        return $skill ? $skill->pivot->level : 0;
     }
 
     public function ships()

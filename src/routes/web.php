@@ -128,6 +128,11 @@ Route::middleware(['auth', 'verified', 'has_character', 'track_location'])->grou
         Route::get('/', [StargateController::class, 'show'])->name('show');
         Route::post('/jump', [StargateController::class, 'jump'])->name('jump');
     });
+    // ==========================================
+    // CHARACTER ROUTES
+    // ==========================================
+    Route::get('/character/license', [\App\Http\Controllers\CharacterController::class, 'license'])->name('character.license');
+    Route::get('/character/skills', [\App\Http\Controllers\CharacterController::class, 'skills'])->name('character.skills');
 });
 
 Route::middleware('auth')->group(function () {
