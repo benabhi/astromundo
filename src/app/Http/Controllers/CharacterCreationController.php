@@ -66,7 +66,7 @@ class CharacterCreationController extends Controller
         }
 
         // Default to Habitation module
-        $module = $station->modules()->where('type', 'Habitation')->first() ?? $station->modules()->first();
+        $module = $station->modules()->where('type', 'quarters')->first() ?? $station->modules()->first();
 
         // Create Character
         $character = Character::create([

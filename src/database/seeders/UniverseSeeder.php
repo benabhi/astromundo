@@ -58,6 +58,7 @@ class UniverseSeeder extends Seeder
             ],
         ]);
 
+
         // --- SYSTEM 2: PROXIMA (Transporter Hub) ---
         $proxima = \App\Models\SolarSystem::create(['name' => 'Proxima', 'slug' => Str::slug('Proxima'), 'coords_x' => 10, 'coords_y' => 5]);
         $proxima->stars()->create(['name' => 'Proxima Centauri', 'type' => 'Red Dwarf', 'attributes' => ['luminosity' => 0.0017]]);

@@ -110,5 +110,10 @@
             @endif
         </x-station.section>
 
+        <!-- Footer -->
+        <footer class="text-center py-8 text-[10px] text-slate-700 font-mono uppercase tracking-widest border-t border-white/5 mt-12">
+            <span class="opacity-50">Fin de la Transmisión // {{ now()->format('Y') }}</span>
+        </footer>
+
     </div>
 </x-game-layout>
